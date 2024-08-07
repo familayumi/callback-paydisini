@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Koneksi ke MongoDB
-mongoose.connect(process.env.MONGODBURI, {
+mongoose.connect('mongodb+srv://rifalwoles57:Kuuhaku1@cluster0.qngpm.mongodb.net/?authSource=admin&retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'))
