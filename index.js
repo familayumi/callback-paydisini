@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'))
+}).then(() => console.log('MongoDB Terhubung bang lanjutkan'))
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Endpoint untuk menerima callback dari PayDisini
@@ -28,7 +28,7 @@ app.post('/callback', async (req, res) => {
       return res.status(404).send('Deposit not found');
     }
 
-    if (status === 'paid') {
+    if (status === 'Success') {
       deposit.status = 'completed';
       const user = await User.findOne({ userId: deposit.userId });
       if (!user) {
@@ -46,6 +46,7 @@ app.post('/callback', async (req, res) => {
         chat_id: chatId,
         text: message,
       });
+      console.log(`Deposit successful message sent to ${chatId}`);
     } else {
       deposit.status = 'failed';
     }
