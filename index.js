@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}).then(() => console.log('MongoDB Terhubung bang lanjutkan'))
+}).then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Endpoint untuk menerima callback dari PayDisini
@@ -40,11 +40,23 @@ app.post('/callback', async (req, res) => {
 
       // Kirim pesan ke bot menggunakan bot token
       const chatId = deposit.userId;
-      const message = `DEPOSIT BERHASIL! Saldo Anda sekarang adalah Rp ${user.saldo}`;
+      const message = `╭──── 〔 *DEPOSIT BERHASIL* 〕
+┊・ 🏷️| Jumlah Deposit: Rp ${deposit.amount}
+┊・ 📦| Saldo Yang Sekarang: Rp ${user.saldo}
+┊・ 🧾| Status: ${deposit.status}
+┊
+┊・ Deposit Saldo berhasil, terima 
+┊   kasih telah melakukan deposit. Yuk beli akun di @nuxysaibot
+┊
+┊・ Author : @ahmadzakiyo
+┊・ ©2024
+╰┈┈┈┈┈┈┈┈`;
+
       const botToken = process.env.BOT_TOKEN;
       await axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         chat_id: chatId,
         text: message,
+        parse_mode: 'Markdown', // Pastikan format Markdown diterima
       });
       console.log(`Deposit successful message sent to ${chatId}`);
     } else {
