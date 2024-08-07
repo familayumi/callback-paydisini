@@ -29,7 +29,7 @@ app.post('/callback', async (req, res) => {
     }
 
     if (status === 'Success') {
-      deposit.status = 'completed';
+      deposit.status = 'BERHASIL ✅';
       const user = await User.findOne({ userId: deposit.userId });
       if (!user) {
         console.error('User not found for userId:', deposit.userId);
@@ -47,9 +47,9 @@ app.post('/callback', async (req, res) => {
 ┊
 ┊・ Pembelian barang berhasil, terima 
 ┊     kasih telah berbelanja. Yuk beli 
-┊     akun di @nuxysaibot
+┊     akun di @IDevilsStoreBOT , Silakan Type /menu untuk membeli barang
 ┊
-┊・ Author : @ahmadzakiyo
+┊・ Owner : @IDevilsStoree
 ┊・ ©2024
 ╰┈┈┈┈┈┈┈┈`;
 
