@@ -19,16 +19,22 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Endpoint untuk menerima callback dari PayDisini
 app.post('/callback', async (req, res) => {
   const { unique_code, status } = req.body;
+  console.log('Received callback:', req.body);
 
   try {
     const deposit = await Deposit.findOne({ uniqueCode: unique_code });
     if (!deposit) {
+      console.error('Deposit not found for unique_code:', unique_code);
       return res.status(404).send('Deposit not found');
     }
 
     if (status === 'paid') {
       deposit.status = 'completed';
       const user = await User.findOne({ userId: deposit.userId });
+      if (!user) {
+        console.error('User not found for userId:', deposit.userId);
+        return res.status(404).send('User not found');
+      }
       user.saldo += deposit.amount;
       await user.save();
 
