@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Koneksi ke MongoDB
-mongoose.connect('mongodb+srv://nuxysapi:lelang18@cluster0.cmvqrmm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'))
@@ -29,7 +29,7 @@ app.post('/callback', async (req, res) => {
     }
 
     if (status === 'Success') {
-      deposit.status = 'BERHASIL✅';
+      deposit.status = 'completed';
       const user = await User.findOne({ userId: deposit.userId });
       if (!user) {
         console.error('User not found for userId:', deposit.userId);
@@ -45,8 +45,9 @@ app.post('/callback', async (req, res) => {
 ┊・ 📦| Saldo Yang Sekarang: Rp ${user.saldo}
 ┊・ 🧾| Status: ${deposit.status}
 ┊
-┊・ Deposit Saldo berhasil, terima 
-┊   kasih telah melakukan deposit. Yuk beli akun di @nuxysaibot
+┊・ Pembelian barang berhasil, terima 
+┊     kasih telah berbelanja. Yuk beli 
+┊     akun di @nuxysaibot
 ┊
 ┊・ Author : @ahmadzakiyo
 ┊・ ©2024
@@ -76,3 +77,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Callback server is running on port ${PORT}`);
 });
+         
